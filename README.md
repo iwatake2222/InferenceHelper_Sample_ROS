@@ -21,7 +21,5 @@ ros2 pkg create inference_helper_sample_ros --build-type ament_cmake --dependenc
 cd ../../
 rosdep install -i --from-path src --rosdistro foxy -y
 colcon build
-
 ```
 
-cd /InferenceHelper_Sample_ROS
