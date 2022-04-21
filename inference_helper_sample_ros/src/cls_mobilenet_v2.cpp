@@ -25,7 +25,7 @@ static void DrawFps(cv::Mat& mat, double time_inference, cv::Point pos, double f
     double fps = 1e9 / (time_now - time_previous).count();
     time_previous = time_now;
     snprintf(text, sizeof(text), "FPS: %.1f, Inference: %.1f [ms]", fps, time_inference);
-    CommonHelper::DrawText(mat, text, cv::Point(0, 0), 0.5, 2, CommonHelper::CreateCvColor(0, 0, 0), CommonHelper::CreateCvColor(180, 180, 180), true);
+    CommonHelper::DrawText(mat, text, pos, font_scale, thickness, color_front, color_back, is_text_on_rect);
 }
 
 ClsMobileNetV2::ClsMobileNetV2(const rclcpp::NodeOptions & options)
@@ -41,8 +41,8 @@ ClsMobileNetV2::ClsMobileNetV2(const rclcpp::NodeOptions & options)
   publisher_result_ = this->create_publisher<inference_helper_sample_ros_interface::msg::Classification>(prm_topic_name_result_pub_, 10);
 
   /*** For image pocessing ***/
-  s_classification_engine.reset(new ClassificationEngine());
-  if (s_classification_engine->Initialize(prm_work_dir_, prm_thread_num_) != ClassificationEngine::kRetOk) {
+  classification_engine_.reset(new ClassificationEngine());
+  if (classification_engine_->Initialize(prm_work_dir_, prm_thread_num_) != ClassificationEngine::kRetOk) {
       RCLCPP_ERROR(this->get_logger(), "Engine initialize error");
   }
 }
@@ -59,7 +59,7 @@ void ClsMobileNetV2::image_callback(const sensor_msgs::msg::Image::ConstSharedPt
   /*** For image pocessing ***/
   cv::Mat image_result = image_org.clone();
   ClassificationEngine::Result cls_result;
-  if (s_classification_engine->Process(image_org, cls_result) != ClassificationEngine::kRetOk) {
+  if (classification_engine_->Process(image_org, cls_result) != ClassificationEngine::kRetOk) {
       RCLCPP_ERROR(this->get_logger(), "Engine calling error");
   }
 

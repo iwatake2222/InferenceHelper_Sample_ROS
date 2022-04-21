@@ -30,7 +30,7 @@ private:
 
   rclcpp::Publisher<inference_helper_sample_ros_interface::msg::Classification>::SharedPtr publisher_result_;
 
-  std::unique_ptr<ClassificationEngine> s_classification_engine;
+  std::unique_ptr<ClassificationEngine> classification_engine_;
 
 };
 
