@@ -2,6 +2,8 @@
 #include "image_transport/image_transport.hpp"
 #include "inference_helper_sample_ros/visibility_control.h"
 
+class ClassificationEngine;
+
 namespace inference_helper_sample_ros
 {
 
@@ -21,6 +23,8 @@ private:
   std::unique_ptr<image_transport::ImageTransport> it_;
   image_transport::Subscriber it_sub_;
   image_transport::Publisher it_pub_;
+
+  std::unique_ptr<ClassificationEngine> s_classification_engine;
 
 };
 

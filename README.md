@@ -9,6 +9,14 @@ docker run -it --name foxytest1 -e DISPLAY=$DISPLAY osrf/ros:foxy-desktop
 # export DISPLAY=192.168.1.2:0
 ```
 
+```
+apt update && apt install -y libopencv-dev ros-foxy-image-pipeline unzip
+
+cd src/InferenceHelper_Sample_ROS
+git submodule update --init
+sh inference_helper_sample_ros/src/inference_helper/third_party/download_prebuilt_libraries.sh
+```
+
 ```sh
 mkdir -p ~/dev_ws/src
 cd ~/dev_ws/src
@@ -23,10 +31,13 @@ rosdep install -i --from-path src --rosdistro foxy -y
 colcon build
 ```
 
-```
-apt update && apt install -y libopencv-dev
-apt install -y ros-foxy-image-pipeline
-```
+
 
 ros2 run image_publisher image_publisher_node /InferenceHelper_Sample_ROS/kite.jpg
 ros2 run image_publisher image_publisher_node /InferenceHelper_Sample_ROS/justdoit.mp4
+
+
+colcon build  --cmake-args -DINFERENCE_HELPER_ENABLE_TFLITE=ON
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:build/inference_helper_sample_ros/
+ros2 run inference_helper_sample_ros cls_mobilenet_v2_exe
+
