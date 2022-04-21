@@ -12,6 +12,7 @@
   <depend>rclcpp</depend>
   <depend>rclcpp_components</depend>
   <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
   <depend>inference_helper_sample_ros_interface</depend>
 
   <exec_depend>ros2launch</exec_depend>

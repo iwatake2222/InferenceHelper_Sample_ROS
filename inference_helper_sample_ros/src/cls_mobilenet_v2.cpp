@@ -38,9 +38,11 @@ ClsMobileNetV2::ClsMobileNetV2(const rclcpp::NodeOptions & options)
   it_sub_ = it_->subscribe(prm_topic_name_image_sub_, 1, std::bind(&ClsMobileNetV2::image_callback, this, std::placeholders::_1));
   it_pub_ = it_->advertise(prm_topic_name_image_pub_, 1);
 
+  publisher_result_ = this->create_publisher<inference_helper_sample_ros_interface::msg::Classification>(prm_topic_name_result_pub_, 10);
+
   /*** For image pocessing ***/
   s_classification_engine.reset(new ClassificationEngine());
-  if (s_classification_engine->Initialize("/root/dev_ws/src/InferenceHelper_Sample_ROS/resource/", 4) != ClassificationEngine::kRetOk) {
+  if (s_classification_engine->Initialize(prm_work_dir_, prm_thread_num_) != ClassificationEngine::kRetOk) {
       RCLCPP_ERROR(this->get_logger(), "Engine initialize error");
   }
 }
@@ -68,21 +70,30 @@ void ClsMobileNetV2::image_callback(const sensor_msgs::msg::Image::ConstSharedPt
 
   DrawFps(image_result, cls_result.time_inference, cv::Point(0, 0), 0.5, 2, CommonHelper::CreateCvColor(0, 0, 0), CommonHelper::CreateCvColor(180, 180, 180), true);
 
-  /* Return the results */
-  // result.class_id = cls_result.class_id;
-  // snprintf(result.label, sizeof(result.label), "%s", cls_result.class_name.c_str());
-  // result.score = cls_result.score;
-  // result.time_pre_process = cls_result.time_pre_process;
-  // result.time_inference = cls_result.time_inference;
-  // result.time_post_process = cls_result.time_post_process;
-
   /*** For ROS stuffs ***/
-  sensor_msgs::msg::Image::SharedPtr msg_pub = cv_bridge::CvImage(std_msgs::msg::Header(), "bgr8", image_result).toImageMsg();
-  it_pub_.publish(msg_pub);
+  sensor_msgs::msg::Image::SharedPtr msg_img = cv_bridge::CvImage(std_msgs::msg::Header(), "bgr8", image_result).toImageMsg();
+  it_pub_.publish(msg_img);
+
+  auto msg_result = inference_helper_sample_ros_interface::msg::Classification();
+  msg_result.header.stamp = this->get_clock()->now();
+  msg_result.header.frame_id = "classification";
+  msg_result.image_header = msg->header;
+  msg_result.class_str = cls_result.class_name;
+  msg_result.class_id = cls_result.class_id;
+  msg_result.score = cls_result.score;
+  publisher_result_->publish(msg_result);
 }
 
 void ClsMobileNetV2::read_parameter()
 {
+  this->declare_parameter<std::string>("work_dir", "/root/dev_ws/src/InferenceHelper_Sample_ROS/resource/");
+  this->get_parameter("work_dir", prm_work_dir_);
+  RCLCPP_INFO(this->get_logger(), "work_dir: %s", prm_work_dir_.c_str());
+
+  this->declare_parameter<int32_t>("thread_num", 4);
+  this->get_parameter("thread_num", prm_thread_num_);
+  RCLCPP_INFO(this->get_logger(), "thread_num: %d", prm_thread_num_);
+
   this->declare_parameter<std::string>("topic_image_sub", "/image_raw");
   this->get_parameter("topic_image_sub", prm_topic_name_image_sub_);
   RCLCPP_INFO(this->get_logger(), "topic_image_sub: %s", prm_topic_name_image_sub_.c_str());
@@ -90,6 +101,10 @@ void ClsMobileNetV2::read_parameter()
   this->declare_parameter<std::string>("topic_image_pub", "/transported_image_raw");
   this->get_parameter("topic_image_pub", prm_topic_name_image_pub_);
   RCLCPP_INFO(this->get_logger(), "topic_image_pub: %s", prm_topic_name_image_pub_.c_str());
+
+  this->declare_parameter<std::string>("topic_result_pub", "/inference_result");
+  this->get_parameter("topic_result_pub", prm_topic_name_result_pub_);
+  RCLCPP_INFO(this->get_logger(), "topic_result_pub: %s", prm_topic_name_result_pub_.c_str());
 }
 
 }
