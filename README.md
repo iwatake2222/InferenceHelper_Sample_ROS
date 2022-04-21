@@ -23,3 +23,10 @@ rosdep install -i --from-path src --rosdistro foxy -y
 colcon build
 ```
 
+```
+apt update && apt install -y libopencv-dev
+apt install -y ros-foxy-image-pipeline
+```
+
+ros2 run image_publisher image_publisher_node /InferenceHelper_Sample_ROS/kite.jpg
+ros2 run image_publisher image_publisher_node /InferenceHelper_Sample_ROS/justdoit.mp4
