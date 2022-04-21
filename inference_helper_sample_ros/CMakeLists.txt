@@ -53,6 +53,10 @@ ament_target_dependencies(cls_mobilenet_v2
   "rclcpp"
   "rclcpp_components"
   "std_msgs"
+  "sensor_msgs"
+  "cv_bridge"
+  "image_transport"
+  "OpenCV"
   "inference_helper_sample_ros_interface"
 )
 rclcpp_components_register_node(cls_mobilenet_v2 PLUGIN "inference_helper_sample_ros::ClsMobileNetV2" EXECUTABLE cls_mobilenet_v2_exe)

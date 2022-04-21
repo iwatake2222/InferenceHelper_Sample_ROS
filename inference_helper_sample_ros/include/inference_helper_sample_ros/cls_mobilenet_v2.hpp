@@ -1,7 +1,6 @@
 #include "rclcpp/rclcpp.hpp"
-
+#include "image_transport/image_transport.hpp"
 #include "inference_helper_sample_ros/visibility_control.h"
-#include "inference_helper_sample_ros_interface/msg/num.hpp"
 
 namespace inference_helper_sample_ros
 {
@@ -12,14 +11,16 @@ public:
   INFERENCE_HELPER_SAMPLE_FOR_ROS_PUBLIC explicit ClsMobileNetV2(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
 
 private:
+  void image_callback(const sensor_msgs::msg::Image::ConstSharedPtr msg);
   void read_parameter();
-  void timer_callback();
 
 private:
-  std::string parameter_string_;
-  rclcpp::Publisher<inference_helper_sample_ros_interface::msg::Num>::SharedPtr publisher_;
-  rclcpp::TimerBase::SharedPtr timer_;
-  size_t count_;
+  std::string prm_topic_name_image_sub_;
+  std::string prm_topic_name_image_pub_;
+
+  std::unique_ptr<image_transport::ImageTransport> it_;
+  image_transport::Subscriber it_sub_;
+  image_transport::Publisher it_pub_;
 
 };
 
