@@ -163,7 +163,16 @@ limitations under the License.
 #define IS_RGB      true
 #define OUTPUT_NAME_0 "StatefulPartitionedCall:0"
 #else
-#define MODEL_NAME  "error"
+// In case unsupported framework is selected, set dummy to avoid build error but will cause runtime error
+#define MODEL_NAME  "dummy"
+#define HAS_BACKGOUND false
+#define HAS_SOFTMAX  false
+#define INPUT_NAME  "dummy"
+#define INPUT_DIMS  { 1, 1, 1, 1 }
+#define TENSORTYPE  TensorInfo::kTensorTypeFp32
+#define IS_NCHW     false
+#define IS_RGB      false
+#define OUTPUT_NAME "dummy"
 #endif
 
 static constexpr int32_t kGridScaleList[] = { 8, 16, 32 };
