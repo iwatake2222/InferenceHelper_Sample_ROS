@@ -100,7 +100,8 @@ endfunction()
 create_module_func("transport" "Transport" SOURCES "src/transport.cpp" "include/inference_helper_sample_ros/transport.hpp")
 create_module_func("cls_mobilenet_v2" "ClsMobileNetV2" SOURCES "src/cls_mobilenet_v2.cpp" "include/inference_helper_sample_ros/cls_mobilenet_v2.hpp"
     "src/engine/engine_cls_mobilenet_v2.cpp" "src/engine/engine_cls_mobilenet_v2.hpp")
-
+create_module_func("det_yolox" "DetYolox" SOURCES "src/det_yolox.cpp" "include/inference_helper_sample_ros/det_yolox.hpp"
+    "src/engine/engine_det_yolox.cpp" "src/engine/engine_det_yolox.hpp")
 
 ##### Install #####
 install(
