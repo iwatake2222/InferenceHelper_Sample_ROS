@@ -47,6 +47,7 @@ def generate_launch_description():
         generate_include_launch_description("transport.launch.py"),
         generate_include_launch_description("cls_mobilenet_v2.launch.py"),
         generate_include_launch_description("det_yolox.launch.py"),
+        generate_include_launch_description("seg_paddleseg_cityscapessota.launch.py"),
     ]
 
     return LaunchDescription(launch_args + [image_publisher] + sub_launches)

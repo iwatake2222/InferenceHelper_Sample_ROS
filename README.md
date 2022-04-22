@@ -37,7 +37,10 @@ ros2 run image_publisher image_publisher_node /kite.jpg
 ros2 run image_publisher image_publisher_node /justdoit.mp4
 
 
-colcon build  --cmake-args -DINFERENCE_HELPER_ENABLE_TFLITE=ON
+colcon build  --cmake-args -DINFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK=ON
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:build/inference_helper_sample_ros/
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:src/InferenceHelper_Sample_ROS/inference_helper_sample_ros/src/inference_helper//third_party/onnxruntime_prebuilt/linux-x64/lib/
+
+
 ros2 run inference_helper_sample_ros cls_mobilenet_v2_exe
 
