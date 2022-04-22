@@ -29,8 +29,8 @@ void Transport::image_callback(const sensor_msgs::msg::Image::ConstSharedPtr msg
 
   // cv::Mat image_org = cv::Mat::zeros(256, 256, CV_8UC3);
   cv::Mat image_org = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8)->image;
-  cv::imshow("image", image_org);
-  cv::waitKey(1);
+  // cv::imshow("image", image_org);
+  // cv::waitKey(1);
 
   cv::Mat image_pub;
   cv::resize(image_org, image_pub, cv::Size(), 0.2, 0.2);

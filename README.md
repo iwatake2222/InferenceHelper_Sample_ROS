@@ -33,8 +33,8 @@ colcon build
 
 
 
-ros2 run image_publisher image_publisher_node /InferenceHelper_Sample_ROS/kite.jpg
-ros2 run image_publisher image_publisher_node /InferenceHelper_Sample_ROS/justdoit.mp4
+ros2 run image_publisher image_publisher_node /kite.jpg
+ros2 run image_publisher image_publisher_node /justdoit.mp4
 
 
 colcon build  --cmake-args -DINFERENCE_HELPER_ENABLE_TFLITE=ON
