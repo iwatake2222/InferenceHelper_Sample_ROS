@@ -23,6 +23,7 @@ class Transport : public rclcpp::Node
 {
 public:
   INFERENCE_HELPER_SAMPLE_FOR_ROS_PUBLIC explicit Transport(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+  ~Transport();
 
 private:
   void image_callback(const sensor_msgs::msg::Image::ConstSharedPtr msg);

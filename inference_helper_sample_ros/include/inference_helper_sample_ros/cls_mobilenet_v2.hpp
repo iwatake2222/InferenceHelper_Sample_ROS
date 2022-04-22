@@ -26,6 +26,7 @@ class ClsMobileNetV2 : public rclcpp::Node
 {
 public:
   INFERENCE_HELPER_SAMPLE_FOR_ROS_PUBLIC explicit ClsMobileNetV2(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+  ~ClsMobileNetV2();
 
 private:
   void image_callback(const sensor_msgs::msg::Image::ConstSharedPtr msg);
@@ -44,7 +45,7 @@ private:
 
   rclcpp::Publisher<inference_helper_sample_ros_interface::msg::Classification>::SharedPtr publisher_result_;
 
-  std::unique_ptr<ClassificationEngine> classification_engine_;
+  std::unique_ptr<ClassificationEngine> engine_;
 
 };
 

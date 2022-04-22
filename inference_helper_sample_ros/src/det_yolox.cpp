@@ -33,13 +33,13 @@ namespace inference_helper_sample_ros
 
 static void DrawFps(cv::Mat& mat, double time_inference, cv::Point pos, double font_scale, int32_t thickness, cv::Scalar color_front, cv::Scalar color_back, bool is_text_on_rect = true)
 {
-    char text[64];
-    static auto time_previous = std::chrono::steady_clock::now();
-    auto time_now = std::chrono::steady_clock::now();
-    double fps = 1e9 / (time_now - time_previous).count();
-    time_previous = time_now;
-    snprintf(text, sizeof(text), "FPS: %.1f, Inference: %.1f [ms]", fps, time_inference);
-    CommonHelper::DrawText(mat, text, pos, font_scale, thickness, color_front, color_back, is_text_on_rect);
+  char text[64];
+  static auto time_previous = std::chrono::steady_clock::now();
+  auto time_now = std::chrono::steady_clock::now();
+  double fps = 1e9 / (time_now - time_previous).count();
+  time_previous = time_now;
+  snprintf(text, sizeof(text), "FPS: %.1f, Inference: %.1f [ms]", fps, time_inference);
+  CommonHelper::DrawText(mat, text, pos, font_scale, thickness, color_front, color_back, is_text_on_rect);
 }
 
 DetYolox::DetYolox(const rclcpp::NodeOptions & options)
@@ -59,6 +59,14 @@ DetYolox::DetYolox(const rclcpp::NodeOptions & options)
   if (engine_->Initialize(prm_work_dir_, prm_thread_num_) != DetectionEngine::kRetOk) {
       RCLCPP_ERROR(this->get_logger(), "Engine initialize error");
   }
+}
+
+DetYolox::~DetYolox()
+{
+  if (engine_->Finalize() != DetectionEngine::kRetOk) {
+      RCLCPP_ERROR(this->get_logger(), "Engine finalization error");
+  }
+  engine_.reset();
 }
 
 void DetYolox::image_callback(const sensor_msgs::msg::Image::ConstSharedPtr msg)

@@ -37,6 +37,10 @@ Transport::Transport(const rclcpp::NodeOptions & options)
   it_pub_ = it_->advertise(prm_topic_name_image_pub_, 1);
 }
 
+Transport::~Transport()
+{
+}
+
 void Transport::image_callback(const sensor_msgs::msg::Image::ConstSharedPtr msg)
 {
   RCLCPP_INFO(this->get_logger(), "topic_image_callback: '%s'", msg->header.frame_id.c_str());
