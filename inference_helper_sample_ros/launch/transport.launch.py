@@ -49,6 +49,13 @@ def generate_launch_description():
             ]],
             shell=True
         ),
+        ExecuteProcess(
+            cmd=[[
+                "ros2 run image_view image_view image:=",
+                topic_image_pub
+            ]],
+            shell=True
+        ),
     ]
 
     nodes = [
