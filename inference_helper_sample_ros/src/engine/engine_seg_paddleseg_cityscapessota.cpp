@@ -40,15 +40,7 @@ limitations under the License.
 #define PRINT_E(...) COMMON_HELPER_PRINT_E(TAG, __VA_ARGS__)
 
 /* Model parameters */
-#if defined(INFERENCE_HELPER_ENABLE_OPENCV)
-#define MODEL_NAME  "paddleseg_cityscapessota/paddleseg_cityscapessota_180x320.onnx"
-#define INPUT_DIMS  { 1, 3, 180, 320 }
-#define INPUT_NAME  "x"
-#define IS_NCHW     true
-#define IS_RGB      true
-#define OUTPUT_NAME "tf.identity"
-#define TENSORTYPE  TensorInfo::kTensorTypeFp32
-#elif defined(INFERENCE_HELPER_ENABLE_TFLITE) || defined(INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK) || defined(INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_GPU) || defined(INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_NNAPI)
+#if defined(INFERENCE_HELPER_ENABLE_TFLITE) || defined(INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK) || defined(INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_GPU) || defined(INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_NNAPI) || defined(INFERENCE_HELPER_ENABLE_ARMNN)
 #define MODEL_NAME  "paddleseg_cityscapessota/paddleseg_cityscapessota_180x320.tflite"
 #define INPUT_DIMS  { 1, 180, 320, 3 }
 #define INPUT_NAME  "serving_default_x:0"
@@ -56,24 +48,8 @@ limitations under the License.
 #define IS_RGB      true
 #define OUTPUT_NAME "StatefulPartitionedCall:0"
 #define TENSORTYPE  TensorInfo::kTensorTypeFp32
-#elif defined(INFERENCE_HELPER_ENABLE_TENSORRT)
+#elif defined(INFERENCE_HELPER_ENABLE_TENSORRT) || defined(INFERENCE_HELPER_ENABLE_OPENCV) || defined(INFERENCE_HELPER_ENABLE_ONNX_RUNTIME) || defined(INFERENCE_HELPER_ENABLE_ONNX_RUNTIME_CUDA)
 #include "inference_helper_tensorrt.h"
-#define MODEL_NAME  "paddleseg_cityscapessota/paddleseg_cityscapessota_180x320.onnx"
-#define INPUT_DIMS  { 1, 3, 180, 320 }
-#define INPUT_NAME  "x"
-#define IS_NCHW     true
-#define IS_RGB      true
-#define OUTPUT_NAME "tf.identity"
-#define TENSORTYPE  TensorInfo::kTensorTypeFp32
-#elif defined(INFERENCE_HELPER_ENABLE_ARMNN)
-#define MODEL_NAME  "paddleseg_cityscapessota/paddleseg_cityscapessota_180x320.tflite"
-#define INPUT_DIMS  { 1, 180, 320, 3 }
-#define INPUT_NAME  "serving_default_x:0"
-#define IS_NCHW     false
-#define IS_RGB      true
-#define OUTPUT_NAME "StatefulPartitionedCall:0"
-#define TENSORTYPE  TensorInfo::kTensorTypeFp32
-#elif defined(INFERENCE_HELPER_ENABLE_ONNX_RUNTIME) || defined(INFERENCE_HELPER_ENABLE_ONNX_RUNTIME_CUDA)
 #define MODEL_NAME  "paddleseg_cityscapessota/paddleseg_cityscapessota_180x320.onnx"
 #define INPUT_DIMS  { 1, 3, 180, 320 }
 #define INPUT_NAME  "x"
