@@ -52,7 +52,7 @@ DetYolox::DetYolox(const rclcpp::NodeOptions & options)
   it_sub_ = it_->subscribe(prm_topic_name_image_sub_, 1, std::bind(&DetYolox::image_callback, this, std::placeholders::_1));
   it_pub_ = it_->advertise(prm_topic_name_image_pub_, 1);
 
-  publisher_result_ = this->create_publisher<inference_helper_sample_ros_interface::msg::BoundingBoxes>(prm_topic_name_result_pub_, 10);
+  publisher_result_ = this->create_publisher<inference_helper_sample_ros_interface::msg::BoundingBoxList>(prm_topic_name_result_pub_, 10);
 
   /*** For image pocessing ***/
   engine_.reset(new DetectionEngine());
@@ -98,7 +98,7 @@ void DetYolox::image_callback(const sensor_msgs::msg::Image::ConstSharedPtr msg)
   sensor_msgs::msg::Image::SharedPtr msg_img = cv_bridge::CvImage(std_msgs::msg::Header(), "bgr8", image_result).toImageMsg();
   it_pub_.publish(msg_img);
 
-  auto msg_result = inference_helper_sample_ros_interface::msg::BoundingBoxes();
+  auto msg_result = inference_helper_sample_ros_interface::msg::BoundingBoxList();
   msg_result.header.stamp = this->get_clock()->now();
   msg_result.header.frame_id = "classification";
   msg_result.image_header = msg->header;
@@ -112,7 +112,7 @@ void DetYolox::image_callback(const sensor_msgs::msg::Image::ConstSharedPtr msg)
     msg_bbox.class_str = bbox.label;
     msg_bbox.class_id = bbox.class_id;
     msg_bbox.score = bbox.score;
-    msg_result.bounding_boxes.push_back(msg_bbox);
+    msg_result.bounding_box_list.push_back(msg_bbox);
   }
   publisher_result_->publish(msg_result);
 }

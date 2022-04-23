@@ -15,7 +15,7 @@ limitations under the License.
 #include "rclcpp/rclcpp.hpp"
 #include "image_transport/image_transport.hpp"
 #include "inference_helper_sample_ros/visibility_control.h"
-#include "inference_helper_sample_ros_interface/msg/bounding_boxes.hpp"
+#include "inference_helper_sample_ros_interface/msg/bounding_box_list.hpp"
 #include "inference_helper_sample_ros_interface/msg/bounding_box.hpp"
 
 #include "common_helper_cv.h"
@@ -46,7 +46,7 @@ private:
   image_transport::Subscriber it_sub_;
   image_transport::Publisher it_pub_;
 
-  rclcpp::Publisher<inference_helper_sample_ros_interface::msg::BoundingBoxes>::SharedPtr publisher_result_;
+  rclcpp::Publisher<inference_helper_sample_ros_interface::msg::BoundingBoxList>::SharedPtr publisher_result_;
 
   std::unique_ptr<DetectionEngine> engine_;
   CommonHelper::NiceColorGenerator nice_color_generator_;

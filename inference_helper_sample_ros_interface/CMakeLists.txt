@@ -21,7 +21,7 @@ find_package(sensor_msgs REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Classification.msg"
   "msg/BoundingBox.msg"
-  "msg/BoundingBoxes.msg"
+  "msg/BoundingBoxList.msg"
   DEPENDENCIES builtin_interfaces std_msgs sensor_msgs
 )
 
