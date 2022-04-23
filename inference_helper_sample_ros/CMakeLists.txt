@@ -109,7 +109,7 @@ create_module_func("depth_lapdepth" "DepthLapdepth" SOURCES "src/depth_lapdepth.
 
 ##### Install #####
 install(
-  DIRECTORY launch
+  DIRECTORY launch rviz
   DESTINATION share/${PROJECT_NAME}
 )
 
