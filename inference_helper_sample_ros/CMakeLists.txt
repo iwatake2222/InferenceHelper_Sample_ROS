@@ -104,6 +104,8 @@ create_module_func("det_yolox" "DetYolox" SOURCES "src/det_yolox.cpp" "include/i
     "src/engine/engine_det_yolox.cpp" "src/engine/engine_det_yolox.hpp")
 create_module_func("seg_paddleseg_cityscapessota" "SegPaddlesegCityscapessota" SOURCES "src/seg_paddleseg_cityscapessota.cpp" "include/inference_helper_sample_ros/seg_paddleseg_cityscapessota.hpp"
     "src/engine/engine_seg_paddleseg_cityscapessota.cpp" "src/engine/engine_seg_paddleseg_cityscapessota.hpp")
+create_module_func("depth_lapdepth" "DepthLapdepth" SOURCES "src/depth_lapdepth.cpp" "include/inference_helper_sample_ros/depth_lapdepth.hpp"
+    "src/engine/engine_depth_lapdepth.cpp" "src/engine/engine_depth_lapdepth.hpp")
 
 ##### Install #####
 install(
