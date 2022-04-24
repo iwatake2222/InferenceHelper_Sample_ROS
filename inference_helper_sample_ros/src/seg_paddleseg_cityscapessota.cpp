@@ -99,7 +99,7 @@ void SegPaddlesegCityscapessota::image_callback(const sensor_msgs::msg::Image::C
 
 void SegPaddlesegCityscapessota::read_parameter()
 {
-  this->declare_parameter<std::string>("work_dir", "/root/dev_ws/src/InferenceHelper_Sample_ROS/resource/");
+  this->declare_parameter<std::string>("work_dir", "./src/InferenceHelper_Sample_ROS/resource/");
   this->get_parameter("work_dir", prm_work_dir_);
   RCLCPP_INFO(this->get_logger(), "work_dir: %s", prm_work_dir_.c_str());
 

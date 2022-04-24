@@ -5,6 +5,23 @@
 
 ![class_diagram](00_doc/class_diagram.png)
 
+## Node Collection
+| Node | Tested frameworks | Description |
+|------|-------------------| ----------- |
+| transport | None | Just transport input image |
+| cls_mobilenet_v2 | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Classification by MobileNet V2 |
+| det_yolox | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Detection by YOLOX-Nano |
+| seg_paddleseg_cityscapessota | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Segmentation by PaddleSeg CityScapesSOTA |
+| depth_lapdepth | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Depth by LapDepth<br> Point Cloud |
+
+- There are lots of projects which haven't been ported. You can add mode
+    - https://github.com/iwatake2222/InferenceHelper_Sample
+    - https://github.com/iwatake2222/play_with_tflite
+    - https://github.com/iwatake2222/play_with_tensorrt
+    - https://github.com/iwatake2222/play_with_ncnn
+    - https://github.com/iwatake2222/play_with_mnn
+- `Tested frameworks` above are just frameworks I tested. You can try another framework
+
 ## Tested Environment
 - Host PC
     - Ubuntu 20.04
@@ -68,6 +85,9 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:src/InferenceHelper_Sample_ROS/inference
 - Run manually
 
 ```sh
+cd ~/dev_ws
+. install/setup.bash
+
 ros2 run image_publisher image_publisher_node src/InferenceHelper_Sample_ROS/resource/dog.jpg
 ros2 run inference_helper_sample_ros det_yolox_exe
 ros2 run image_view image_view --ros-args --remap image:=/transported_image_raw
@@ -84,23 +104,6 @@ ros2 launch inference_helper_sample_ros det_yolox.launch.py
 ```sh
 ros2 launch inference_helper_sample_ros adas.launch.py
 ```
-
-## Node Collection
-| Node | Tested frameworks | Description |
-|------|-------------------| ----------- |
-| transport | None | Just transport input image |
-| cls_mobilenet_v2 | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Classification by MobileNet V2 |
-| det_yolox | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Detection by YOLOX-Nano |
-| seg_paddleseg_cityscapessota | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Segmentation by PaddleSeg CityScapesSOTA |
-| depth_lapdepth | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Depth by LapDepth<br> Point Cloud |
-
-- There are lots of projects which haven't been ported. You can add mode
-    - https://github.com/iwatake2222/InferenceHelper_Sample
-    - https://github.com/iwatake2222/play_with_tflite
-    - https://github.com/iwatake2222/play_with_tensorrt
-    - https://github.com/iwatake2222/play_with_ncnn
-    - https://github.com/iwatake2222/play_with_mnn
-- `Tested frameworks` above are just frameworks I tested. You can try another frameworks
 
 ## Node Specs
 ![graph](00_doc/rqt_graph_0.png)
@@ -126,12 +129,10 @@ ros2 launch inference_helper_sample_ros adas.launch.py
 
 
 # License
-- InferenceHelper_Sample_ROS
-- https://github.com/iwatake2222/InferenceHelper_Sample_ROS
 - Copyright 2022 iwatake2222
 - Licensed under the Apache License, Version 2.0
 
 # Acknowledgements
 - This project utilizes OSS (Open Source Software)
-    - NOTICE.md
+    - [NOTICE.md](NOTICE.md)
 
