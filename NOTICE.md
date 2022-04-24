@@ -36,9 +36,9 @@
     - YOLOX
     - https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_s_ncnn.tar.gz
     - Licensed under the Apache License, Version 2.0
-- road-segmentation-adas-0001
-    - https://github.com/openvinotoolkit/open_model_zoo/tree/master/models/intel/road-segmentation-adas-0001
-    - Copyright (c) 2021 Intel Corporation
+- PaddleSeg CityscapesSOTA
+    - https://github.com/PaddlePaddle/PaddleSeg/tree/release/2.3/contrib/CityscapesSOTA
+    - Copyright (c) 2020  PaddlePaddle Authors. All Rights Reserved.
     - Licensed under the Apache License, Version 2.0
 - LapDepth-release
     - https://github.com/tjqansthd/LapDepth-release

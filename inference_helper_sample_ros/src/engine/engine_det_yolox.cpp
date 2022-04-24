@@ -172,7 +172,7 @@ limitations under the License.
 #define TENSORTYPE  TensorInfo::kTensorTypeFp32
 #define IS_NCHW     false
 #define IS_RGB      false
-#define OUTPUT_NAME "dummy"
+#define OUTPUT_NAME_0 "dummy"
 #endif
 
 static constexpr int32_t kGridScaleList[] = { 8, 16, 32 };

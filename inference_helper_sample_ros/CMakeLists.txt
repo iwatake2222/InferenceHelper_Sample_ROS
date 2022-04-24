@@ -86,7 +86,7 @@ function(create_module_func LIB_NAME COMPONENT_NAME SOURCES)
     "OpenCV"
     "inference_helper_sample_ros_interface"
   )
-  rclcpp_components_register_node(${LIB_NAME} PLUGIN "inference_helper_sample_ros::${COMPONENT_NAME}" EXECUTABLE "${LIB_NAME}_exe")
+  rclcpp_components_register_node("${LIB_NAME}" PLUGIN "inference_helper_sample_ros::${COMPONENT_NAME}" EXECUTABLE "${LIB_NAME}_exe")
 
   install(TARGETS
     ${LIB_NAME}
@@ -106,6 +106,13 @@ create_module_func("seg_paddleseg_cityscapessota" "SegPaddlesegCityscapessota" S
     "src/engine/engine_seg_paddleseg_cityscapessota.cpp" "src/engine/engine_seg_paddleseg_cityscapessota.hpp")
 create_module_func("depth_lapdepth" "DepthLapdepth" SOURCES "src/depth_lapdepth.cpp" "include/inference_helper_sample_ros/depth_lapdepth.hpp"
     "src/engine/engine_depth_lapdepth.cpp" "src/engine/engine_depth_lapdepth.hpp")
+
+# Memo: for some reasons, I need these lines to create component even though I did rclcpp_components_register_node above...
+rclcpp_components_register_nodes("transport" "inference_helper_sample_ros::Transport")
+rclcpp_components_register_nodes("cls_mobilenet_v2" "inference_helper_sample_ros::ClsMobileNetV2")
+rclcpp_components_register_nodes("det_yolox" "inference_helper_sample_ros::DetYolox")
+rclcpp_components_register_nodes("seg_paddleseg_cityscapessota" "inference_helper_sample_ros::SegPaddlesegCityscapessota")
+rclcpp_components_register_nodes("depth_lapdepth" "inference_helper_sample_ros::DepthLapdepth")
 
 ##### Install #####
 install(
