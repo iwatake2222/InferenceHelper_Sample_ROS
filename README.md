@@ -1,7 +1,7 @@
 ![demo_adas](00_doc/demo_adas.jpg)
 
 # InferenceHelper_Sample_ROS
-- Sample node collection using Inference Helper (https://github.com/iwatake2222/InferenceHelper ) in ROS2
+- DNN node collection using Inference Helper (https://github.com/iwatake2222/InferenceHelper ) in ROS2
 
 ![class_diagram](00_doc/class_diagram.png)
 
@@ -9,12 +9,12 @@
 | Node | Tested frameworks | Description |
 |------|-------------------| ----------- |
 | transport | None | Just transport input image |
-| cls_mobilenet_v2 | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Classification by MobileNet V2 |
-| det_yolox | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Detection by YOLOX-Nano |
+| cls_mobilenet_v2 | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li><li>INFERENCE_HELPER_ENABLE_MNN</li><li>INFERENCE_HELPER_ENABLE_NCNN</li><li>INFERENCE_HELPER_ENABLE_OPENCV</li></ul> | Classification by MobileNetV2 |
+| det_yolox | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li><li>INFERENCE_HELPER_ENABLE_MNN</li><li>INFERENCE_HELPER_ENABLE_NCNN</li></ul> | Detection by YOLOX-Nano |
 | seg_paddleseg_cityscapessota | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Segmentation by PaddleSeg CityScapesSOTA |
 | depth_lapdepth | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Depth by LapDepth<br> Point Cloud |
 
-- There are lots of projects which haven't been ported. You can add mode
+- There are lots of projects which haven't been ported. You can add more by referring the following repos
     - https://github.com/iwatake2222/InferenceHelper_Sample
     - https://github.com/iwatake2222/play_with_tflite
     - https://github.com/iwatake2222/play_with_tensorrt
@@ -50,6 +50,7 @@ apt update && apt install -y libopencv-dev ros-foxy-image-pipeline unzip
 
 ### Create ROS2 workspace and download this repo
 ```sh:in_container
+source /opt/ros/foxy/setup.bash
 mkdir -p ~/dev_ws/src
 cd ~/dev_ws/src
 
@@ -66,23 +67,28 @@ cd ~/dev_ws
 rosdep install -i --from-path src --rosdistro foxy -y
 colcon build  --cmake-args -DINFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK=OFF -DINFERENCE_HELPER_ENABLE_ONNX_RUNTIME=ON
 # colcon build  --cmake-args -DINFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK=ON -DINFERENCE_HELPER_ENABLE_ONNX_RUNTIME=OFF
-
-### Set library path ###
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:build/inference_helper_sample_ros/
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:src/InferenceHelper_Sample_ROS/inference_helper_sample_ros/src/inference_helper//third_party/onnxruntime_prebuilt/linux-x64/lib/
 ```
 
 - Enable one of `INFERENCE_HELPER_ENABLE_***` options when you build.
 - Above commands are just an example. Refer to https://github.com/iwatake2222/InferenceHelper#cmake-options to find more build options
-- Note 1
+- Note
     - Some frameworks may not be supported in your environment
     - Some models may not be supported in your environment / framework you selected
-- Note 2
-    - You need to specify framework library path
-    - There may be a way to avoid it. NEED HELP!!
+
+
+### Set library path
+```sh:in_container
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:build/inference_helper_sample_ros/
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:src/InferenceHelper_Sample_ROS/inference_helper_sample_ros/src/inference_helper/third_party/onnxruntime_prebuilt/linux-x64/lib/
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:src/InferenceHelper_Sample_ROS/inference_helper_sample_ros/src/inference_helper/third_party/mnn_prebuilt/ubuntu/lib/
+```
+
+- You need to specify framework library path in the same terminal as you run the node later
+- There may be a way to avoid it. HELP WANTED!!
 
 ### Run
 - Run manually
+    - You need 3 terminals
 
 ```sh
 cd ~/dev_ws
@@ -96,12 +102,21 @@ ros2 run image_view image_view --ros-args --remap image:=/transported_image_raw
 - Run launch file
 
 ```sh
+cd ~/dev_ws
+. install/setup.bash
+
+ros2 launch inference_helper_sample_ros cls_mobilenet_v2.launch.py image_filename:=src/InferenceHelper_Sample_ROS/resource/parrot.jpg
 ros2 launch inference_helper_sample_ros det_yolox.launch.py
+ros2 launch inference_helper_sample_ros depth_lapdepth.launch.py
+ros2 launch inference_helper_sample_ros seg_paddleseg_cityscapessota.launch.py image_filename:=src/InferenceHelper_Sample_ROS/resource/dashcam_02.jpg
 ```
 
 - Run ADAS demo
 
 ```sh
+cd ~/dev_ws
+. install/setup.bash
+
 ros2 launch inference_helper_sample_ros adas.launch.py
 ```
 
