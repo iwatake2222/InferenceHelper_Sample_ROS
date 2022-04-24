@@ -10,9 +10,9 @@
 |------|-------------------| ----------- |
 | transport | None | Just transport input image |
 | cls_mobilenet_v2 | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li><li>INFERENCE_HELPER_ENABLE_MNN</li><li>INFERENCE_HELPER_ENABLE_NCNN</li><li>INFERENCE_HELPER_ENABLE_OPENCV</li></ul> | Classification by MobileNetV2 |
-| det_yolox | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li><li>INFERENCE_HELPER_ENABLE_MNN</li><li>INFERENCE_HELPER_ENABLE_NCNN</li></ul> | Detection by YOLOX-Nano |
-| seg_paddleseg_cityscapessota | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Segmentation by PaddleSeg CityScapesSOTA |
-| depth_lapdepth | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Depth by LapDepth<br> Point Cloud |
+| det_yolox | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li><li>INFERENCE_HELPER_ENABLE_MNN</li><li>INFERENCE_HELPER_ENABLE_NCNN</li></ul> | Detection by YOLOX-Nano<br>Light |
+| seg_paddleseg_cityscapessota | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Segmentation by PaddleSeg CityScapesSOTA<br>Very heavy |
+| depth_lapdepth | <ul><li>INFERENCE_HELPER_ENABLE_TFLITE_DELEGATE_XNNPACK</li><li>INFERENCE_HELPER_ENABLE_ONNX_RUNTIME</li></ul> | Depth by LapDepth, Point Cloud<br>Heavy |
 
 - There are lots of projects which haven't been ported. You can add more by referring the following repos
     - https://github.com/iwatake2222/InferenceHelper_Sample
@@ -21,6 +21,7 @@
     - https://github.com/iwatake2222/play_with_ncnn
     - https://github.com/iwatake2222/play_with_mnn
 - `Tested frameworks` above are just frameworks I tested. You can try another framework
+    - I haven't tried but it's recommended to use TensorRT (GPU) for heavy models
 
 ## Tested Environment
 - Host PC
@@ -112,6 +113,7 @@ ros2 launch inference_helper_sample_ros seg_paddleseg_cityscapessota.launch.py i
 ```
 
 - Run ADAS demo
+    - Notice: this demo is very heavy
 
 ```sh
 cd ~/dev_ws
