@@ -43,7 +43,7 @@ static void DrawFps(cv::Mat& mat, double time_inference, cv::Point pos, double f
 }
 
 DetYolox::DetYolox(const rclcpp::NodeOptions & options)
-: Node("DetYolox", options)
+: Node("det_yolox", options)
 {
   read_parameter();
 
@@ -100,7 +100,7 @@ void DetYolox::image_callback(const sensor_msgs::msg::Image::ConstSharedPtr msg)
 
   auto msg_result = inference_helper_sample_ros_interface::msg::BoundingBoxList();
   msg_result.header.stamp = this->get_clock()->now();
-  msg_result.header.frame_id = "classification";
+  msg_result.header.frame_id = "detection";
   msg_result.image_header = msg->header;
   for (const auto& bbox : engine_result.bbox_list) {
     auto msg_bbox = inference_helper_sample_ros_interface::msg::BoundingBox();

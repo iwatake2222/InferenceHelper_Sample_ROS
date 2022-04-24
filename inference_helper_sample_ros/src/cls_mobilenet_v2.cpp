@@ -43,7 +43,7 @@ static void DrawFps(cv::Mat& mat, double time_inference, cv::Point pos, double f
 }
 
 ClsMobileNetV2::ClsMobileNetV2(const rclcpp::NodeOptions & options)
-: Node("ClsMobileNetV2", options)
+: Node("cls_mobilenet_v2", options)
 {
   read_parameter();
 

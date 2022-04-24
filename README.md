@@ -36,7 +36,7 @@
 
 ```sh:in_your_host_PC
 xhost local:    # if needed
-docker run -it --name ros2_foxy_1 -e DISPLAY=$DISPLAY osrf/ros:foxy-desktop
+docker run -it --name ros2_foxy_1 -e DISPLAY=$DISPLAY --net=host osrf/ros:foxy-desktop
 # docker start ros2_foxy_1
 # docker exec -it ros2_foxy_1 /ros_entrypoint.sh bash
 ```
@@ -58,7 +58,7 @@ git clone https://github.com/iwatake2222/InferenceHelper_Sample_ROS.git
 cd InferenceHelper_Sample_ROS
 git submodule update --init
 sh inference_helper_sample_ros/src/inference_helper/third_party/download_prebuilt_libraries.sh
-sh inference_helper_sample_ros/download_resource.sh
+sh download_resource.sh
 ```
 
 ### Build

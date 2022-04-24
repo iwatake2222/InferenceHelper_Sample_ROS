@@ -43,7 +43,7 @@ static void DrawFps(cv::Mat& mat, double time_inference, cv::Point pos, double f
 }
 
 DepthLapdepth::DepthLapdepth(const rclcpp::NodeOptions & options)
-: Node("DepthLapdepth", options)
+: Node("depth_lapdepth", options)
 {
   read_parameter();
 

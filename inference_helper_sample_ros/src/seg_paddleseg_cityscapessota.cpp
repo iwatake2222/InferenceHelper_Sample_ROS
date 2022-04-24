@@ -43,7 +43,7 @@ static void DrawFps(cv::Mat& mat, double time_inference, cv::Point pos, double f
 }
 
 SegPaddlesegCityscapessota::SegPaddlesegCityscapessota(const rclcpp::NodeOptions & options)
-: Node("SegPaddlesegCityscapessota", options)
+: Node("seg_paddleseg_cityscapessota", options)
 {
   read_parameter();
 
